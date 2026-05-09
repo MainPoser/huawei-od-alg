@@ -1,0 +1,1 @@
+[add_rule rule_id=1 rule_index=9999][mod_rule rule_id=1 rule_index=10][del rule rule_id=1]
