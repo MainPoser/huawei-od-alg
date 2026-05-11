@@ -103,7 +103,7 @@ func chupai(hands []int, tables []int, tableMap map[int]int, times *int) ([]int,
 		// 翻面，放在底部
 		for i := len(ret) - 1; i >= 0; i-- {
 			delete(tableMap, ret[i])
-			hands = append([]int{ret[i]}, hands...)
+			hands = append(hands, ret[i])
 		}
 		// 桌面剩余
 		tables = tables[0:idx]
@@ -114,7 +114,7 @@ func chupai(hands []int, tables []int, tableMap map[int]int, times *int) ([]int,
 		if len(tables) > 0 {
 			// 桌面有牌，全部收走，翻面，放在底部，清空桌面
 			for i := len(tables) - 1; i >= 0; i-- {
-				hands = append([]int{tables[i]}, hands...)
+				hands = append(hands, tables[i])
 			}
 			tableMap = make(map[int]int)
 			tables = []int{}
