@@ -379,7 +379,7 @@ func inorderTraversal(root *TreeNode) []int {
 	return res
 }
 
-// 二叉树的中序遍历 版本2
+// 二叉树的中序遍历 版本2 TODO
 func inorderTraversal2(root *TreeNode) []int {
 	var res []int
 	var stack []*TreeNode
@@ -669,4 +669,91 @@ func generate(numRows int) [][]int {
 		}
 	}
 	return c
+}
+
+// 只出现一次的数字
+func singleNumber(nums []int) int {
+	hold := make(map[int]struct{})
+	for i := range nums {
+		if _, ok := hold[nums[i]]; ok {
+			delete(hold, nums[i])
+		} else {
+			hold[nums[i]] = struct{}{}
+		}
+	}
+	for num := range hold {
+		return num
+	}
+	return 0
+}
+
+func majorityElement(nums []int) int {
+	hold := make(map[int]int)
+	maxCount := 1
+	for i := range nums {
+		hold[nums[i]]++
+		maxCount = max(maxCount, hold[nums[i]])
+	}
+	for num := range hold {
+		if hold[num] == maxCount {
+			return num
+		}
+	}
+	return 0
+}
+
+// 合并两个有序链表
+func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
+	var newHaed = &ListNode{}
+	cur := newHaed
+
+	for list1 != nil && list2 != nil {
+		if list1.Val < list2.Val {
+			cur.Next = list1
+			list1 = list1.Next
+		} else {
+			cur.Next = list2
+			list2 = list2.Next
+		}
+		cur = cur.Next
+	}
+	if list1 != nil {
+		cur.Next = list1
+	}
+	if list2 != nil {
+		cur.Next = list2
+	}
+
+	return newHaed.Next
+}
+
+// 最大子数组和
+func maxSubArray(nums []int) int {
+
+	dp := make([]int, len(nums))
+	dp[0] = nums[0]
+	ans := nums[0]
+
+	for i := 1; i < len(nums); i++ {
+		dp[i] = max(dp[i-1]+nums[i], nums[i])
+		ans = max(ans, dp[i])
+	}
+
+	return ans
+}
+
+// 将有序数组转换为二叉搜索树
+func sortedArrayToBST(nums []int) *TreeNode {
+	return dfs(nums, 0, len(nums)-1)
+
+}
+func dfs(nums []int, l, r int) *TreeNode {
+	if l > r {
+		return nil
+	}
+	mid := l + (r-l)/2
+	root := &TreeNode{Val: nums[mid]}
+	root.Left = dfs(nums, l, mid-1)
+	root.Right = dfs(nums, mid+1, r)
+	return root
 }
